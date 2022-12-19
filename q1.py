@@ -5,7 +5,6 @@ def solution(param, i):
         return
     for op in operator:
         param = param[:i] + op + param[i:]
-        print({"param1": param, "i1": i})
         if eval(param) == 100:
             yield param
         for j in range(i + 2, len(param)):
