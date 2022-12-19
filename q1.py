@@ -1,26 +1,22 @@
-import random
-def solution(param):
-    global solved
-    prev_solution = []
-    opers = ['+', '-', '']
-    expression = ('%s'.join(param) % (random.choice(opers),
-                                     random.choice(opers),
-                                     random.choice(opers),
-                                     random.choice(opers),
-                                     random.choice(opers),
-                                     random.choice(opers),
-                                     random.choice(opers),
-                                     random.choice(opers),
-                                     )
-             )
-    if eval(expression) == 100:
-        if expression not in prev_solution:
-            solved += 1
-            prev_solution.append(expression)
-            print ("Solution:", expression, eval(expression))
-    else:
-        pass
+
+def solution(param, i):
+    operator = ['+', '-', '']
+    if i >= len(param):
+        return
+    for op in operator:
+        param = param[:i] + op + param[i:]
+        print({"param1": param, "i1": i})
+        if eval(param) == 100:
+            yield param
+        for j in range(i + 2, len(param)):
+            for sol in solution(param, j):
+                yield sol
+        param = param[:i] + param[i+1:]
+my_set = set()
+param = "123456789"
+for idx in range(len(param)):
+    for sol in solution(param, idx + 1):
+        my_set.add(sol)
     
-solved = 0
-while solved < 1000:
-    solution('123456789')
+for item in my_set:
+    print(item)
